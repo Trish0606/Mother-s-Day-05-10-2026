@@ -2,160 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light">
-    <title>Our Memories | Happy Mother's Day!</title>
+    <title>For Mom</title>
     <style>
-        /* Base Styling */
         body { background: linear-gradient(135deg, #e6f3ff, #ffe6f0); height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; font-family: 'Georgia', serif; color: #333; overflow: hidden; }
-
-        /* General Petal Animation */
-        .petal { position: absolute; top: -10%; animation: fall linear forwards; pointer-events: none; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-        .side-tree { position: fixed; bottom: -50px; font-size: 180px; z-index: 1; pointer-events: none; opacity: 0.7; }
-
-        /* Introduction: Castle Window System */
-        .intro-container { position: absolute; width: 350px; height: 450px; display: flex; justify-content: center; align-items: center; z-index: 100; transition: opacity 0.5s; overflow: hidden; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .window-pane { position: absolute; width: 50%; height: 100%; background-size: cover; background-position: center; top: 0; transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1.000); border-radius: 20px; z-index: 101; }
         
-        /* Left Pane (Swings Left) */
-        .pane-left { left: 0; transform-origin: left; background-image: url('castle.jpg'); /* USE YOUR OWN CASTLE IMAGE */ border-right: 2px solid rgba(255, 204, 230, 0.5); }
-        /* Right Pane (Swings Right) */
-        .pane-right { right: 0; transform-origin: right; background-image: url('castle.jpg'); /* USE YOUR OWN CASTLE IMAGE */ background-position: right center; }
-        
-        /* Button in the middle */
-        #unlock-button { position: absolute; padding: 15px 30px; background: #ff75a0; color: white; border: none; border-radius: 30px; font-size: 1.2em; font-weight: bold; cursor: pointer; z-index: 102; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.2s, opacity 0.5s; }
-        #unlock-button:hover { transform: scale(1.05); }
+        /* The Book */
+        .book { width: 350px; height: 450px; position: relative; z-index: 10; perspective: 1000px; }
+        .page { position: absolute; width: 100%; height: 100%; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; transform-origin: left; transition: transform 1.2s; backface-visibility: hidden; border: 2px solid #ffcce6; }
+        .flipped { transform: rotateY(-180deg); }
 
-        /* Trigger for opening (Add 'open' class to .intro-container) */
-        .open .pane-left { transform: rotateY(-130deg); }
-        .open .pane-right { transform: rotateY(130deg); }
-        .open #unlock-button { opacity: 0; pointer-events: none; }
-
-        /* Gallery System (What appears after) */
-        .gallery-container { display: none; width: 350px; height: 450px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); background: rgba(255, 255, 255, 0.95); padding: 40px; box-sizing: border-box; z-index: 10; border: 3px solid #ffcce6; opacity: 0; transition: opacity 1s; }
-        
-        /* Floating Heart System */
-        .heart-float { position: absolute; color: #ff75a0; font-size: 24px; animation: floatHeart linear infinite; pointer-events: none; opacity: 0; }
-        @keyframes floatHeart {
+        /* Floating Hearts Animation */
+        .heart { position: absolute; font-size: 20px; pointer-events: none; animation: blowUp 4s linear forwards; }
+        @keyframes blowUp {
             0% { transform: translateY(0) scale(0); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(-120px) scale(1.1) translateX(calc(10px - 20px * random())); opacity: 0; } /* Use simple translateX */
+            50% { opacity: 1; }
+            100% { transform: translateY(-300px) rotate(45deg); opacity: 0; }
         }
 
-        /* Specific Image/Text styling for Mom's page */
-        img#moms-photo { max-width: 100%; max-height: 250px; border-radius: 15px; border: 4px solid #ff75a0; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        h1.mothers-day-text { color: #d63384; font-family: 'Brush Script MT', cursive; font-size: 3.5em; margin-top: 15px; margin-bottom: 0; }
-        p.dedication-text { color: #4a90e2; font-style: italic; font-size: 1.1em; max-width: 90%; }
-        button#back-button { margin-top: auto; padding: 10px 20px; background: #ffb7c5; border: none; border-radius: 25px; color: white; cursor: pointer; font-family: 'Georgia', serif; font-weight: bold; font-size: 0.9em; }
-
-        /* The final message that is invisible initially */
-        #final-screen { display: none; width: 350px; text-align: center; z-index: 20; opacity: 0; transition: opacity 1s; }
-        h1.goodbye-text { color: #d63384; font-size: 2.5em; font-family: 'Brush Script MT', cursive; }
-        button#finish-button { padding: 10px 20px; background: #4a90e2; border: none; border-radius: 25px; color: white; cursor: pointer; font-family: 'Georgia', serif; font-weight: bold; font-size: 1.1em; margin-top: 20px; }
+        /* Elements */
+        img { max-width: 100%; max-height: 200px; border-radius: 15px; border: 3px solid #ffb7c5; margin-bottom: 15px; }
+        h1 { color: #d63384; font-size: 24px; margin: 10px 0; }
+        p { font-style: italic; line-height: 1.6; }
+        button { margin-top: auto; padding: 10px 25px; background: #ff75a0; border: none; border-radius: 25px; color: white; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="side-tree" style="left: -20px;">🌸</div>
-    <div class="side-tree" style="right: -20px;">🌸</div>
-    <audio id="bg-music" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="intro-container" id="intro-windows">
-        <div class="window-pane pane-left"></div>
-        <div class="window-pane pane-right"></div>
-        <button id="unlock-button" onclick="openMemories()">Unlock the Memories 💖</button>
-    </div>
-
-    <div class="gallery-container" id="memories-gallery">
-        <img src="mom.jpg" alt="To my beautiful Mom" id="moms-photo">
-        <p class="dedication-text">For all the love and happiness you've brought into my life...</p>
-        <h1 class="mothers-day-text">Happy Mother's Day!</h1>
-        <button id="back-button" onclick="closeMemories()">Read it Again 🌸</button>
-    </div>
-
-    <div id="final-screen">
-        <h1 class="goodbye-text">A special moment... just for you.</h1>
-        <p style="color: #4a90e2; font-style: italic;">I hope you enjoyed this floating memory.</p>
-        <button id="finish-button" onclick="finishBook()">The End ✨</button>
+    <div class="book" id="book">
+        <div class="page" id="p1" style="z-index: 2;">
+            <h2>Dear Mom,</h2>
+            <p>You are the heart of our home. Thank you for everything you do and for being you. I love you so much.</p>
+            <button onclick="revealGift('p1')">Click to Reveal 💖</button>
+        </div>
+        
+        <div class="page" id="p2" style="z-index: 1;">
+            <img src="mom.jpg" alt="Mom">
+            <h1>Happy Mother's Day!</h1>
+            <p>With all my love.</p>
+        </div>
     </div>
 
     <script>
-        // Main function to open the gallery
-        function openMemories() {
-            // Start the music (if added)
-            const music = document.getElementById('bg-music');
-            if (music && music.paused) { music.play().catch(e => console.log("Music blocked: ", e)); }
-
-            // 1. Add 'open' class to castle windows
-            document.getElementById('intro-windows').classList.add('open');
-
-            // 2. Delay: Transition from intro to gallery
-            setTimeout(() => {
-                const intro = document.getElementById('intro-windows');
-                const gallery = document.getElementById('memories-gallery');
-                intro.style.opacity = '0';
-                setTimeout(() => { 
-                    intro.style.display = 'none'; 
-                    gallery.style.display = 'flex'; // Use flex to show it
-                    setTimeout(() => gallery.style.opacity = '1', 50); // Show gently
-                    startFloatingHearts(); // Trigger heart animation
-                }, 1000); // Time for the window open animation (partially)
-            }, 500); // Give the initial click a moment
+        function revealGift(id) {
+            document.getElementById(id).classList.add('flipped');
+            
+            // Start the blowing hearts
+            if (id === 'p1') {
+                setInterval(createHeart, 300);
+            }
         }
 
-        function closeMemories() {
-            // Optional: A way for her to reset the scene
-            window.location.reload(); 
-        }
-
-        function finishBook() {
-            // Optional: The last-page disappearance logic
-            document.getElementById('memories-gallery').style.display = 'none';
-            const finalScreen = document.getElementById('final-screen');
-            finalScreen.style.display = 'block';
-            setTimeout(() => finalScreen.style.opacity = '1', 50); 
-        }
-
-        // --- Animations ---
-
-        // 1. General Falling Petals Logic (Same as your book project)
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.innerHTML = Math.random() > 0.5 ? '🌸' : '💗'; // Mix cherry blossoms and small hearts
-            petal.className = 'petal';
-            petal.style.fontSize = (Math.random() * 15 + 15) + 'px'; // Varied size
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.animationDuration = Math.random() * 5 + 7 + 's'; // Slightly slower, more floating
-            petal.style.opacity = Math.random();
-            document.body.appendChild(petal);
-            setTimeout(() => petal.remove(), 12000); // Duration matches animation + buffer
-        }
-        setInterval(createPetal, 1500); // Start the petal fall
-
-        // 2. Floating Heart System around the image
         function createHeart() {
-            const gallery = document.getElementById('memories-gallery');
             const heart = document.createElement('div');
-            heart.innerHTML = Math.random() > 0.3 ? '💖' : '💕'; // Small mix of hearts
-            heart.className = 'heart-float';
-            // Simple positioning logic around the center
-            const randomX = Math.random() * 200 - 100; // -100px to +100px
-            const randomDelay = Math.random() * 1.5; // Random delay for natural flow
-
-            heart.style.left = `calc(50% + ${randomX}px)`;
-            heart.style.animationDelay = randomDelay + 's';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's'; // Varied speed
-            gallery.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000); // Matches animation duration
-        }
-        
-        let heartInterval;
-        function startFloatingHearts() {
-            if (heartInterval) clearInterval(heartInterval);
-            heartInterval = setInterval(createHeart, 300); // Spawn speed
+            heart.innerHTML = '💖';
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.bottom = '10%';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
         }
     </script>
 </body>
