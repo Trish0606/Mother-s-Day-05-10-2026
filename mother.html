@@ -2,70 +2,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Mom</title>
     <style>
-        body { background: #fdf6e3; height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; font-family: 'Georgia', serif; color: #333; overflow: hidden; }
+        /* Base Styling */
+        body { background: linear-gradient(135deg, #fdf6e3, #ffe6f0); height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; font-family: 'Georgia', serif; color: #333; overflow: hidden; }
 
-        /* 1. THE "CASTLE WINDOWS" (No image needed!) */
-        #window-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; transition: opacity 1s; }
-        .shutter { flex: 1; height: 100%; background: #d4a373; border: 5px solid #a3754e; transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .shutter-left { transform-origin: left; }
-        .shutter-right { transform-origin: right; }
-        .open .shutter-left { transform: rotateY(-110deg); }
-        .open .shutter-right { transform: rotateY(110deg); }
-        #open-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 20px 40px; background: #fff; border: 2px solid #d4a373; cursor: pointer; font-family: 'Georgia', serif; font-size: 1.2em; z-index: 1001; border-radius: 10px; }
+        /* 1. THE PINK CURTAINS (The Entrance) */
+        #curtain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; transition: opacity 1s; }
+        .curtain { flex: 1; height: 100%; background-color: #ffb7c5; /* Pink Curtain Color */ background-image: radial-gradient(#ffe6f0 1px, #ffb7c5 1px); background-size: 20px 20px; transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1); border: 2px solid rgba(255, 255, 255, 0.5); }
+        .curtain-left { transform-origin: left; border-right: none; border-radius: 0 50px 50px 0 / 0 100px 100px 0; }
+        .curtain-right { transform-origin: right; border-left: none; border-radius: 50px 0 0 50px / 100px 0 0 100px; }
+        .open .curtain-left { transform: rotateY(-110deg); }
+        .open .curtain-right { transform: rotateY(110deg); }
+        #open-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 18px 36px; background: white; border: none; border-radius: 50px; cursor: pointer; font-family: 'Georgia', serif; font-size: 1.3em; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 1001; }
 
-        /* 2. THE BOOK */
-        .book { width: 350px; height: 450px; position: relative; perspective: 1000px; }
-        .page { position: absolute; width: 100%; height: 100%; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; transform-origin: left; transition: transform 1.2s; border: 2px solid #ffcce6; }
-        .flipped { transform: rotateY(-180deg); }
+        /* 2. ATMOSPHERE (Cherry Blossom Petals & Blowing Hearts) */
+        .petal, .balloon { position: absolute; pointer-events: none; }
+        
+        /* Petal Animation */
+        .petal { top: -10%; animation: fallPetal linear forwards; font-size: 20px; }
+        @keyframes fallPetal { to { transform: translateY(110vh) rotate(360deg); } }
 
-        /* 3. BALLOON HEARTS */
-        .balloon { position: absolute; font-size: 30px; pointer-events: none; animation: floatUp 5s linear forwards; }
-        @keyframes floatUp {
+        /* Balloon Animation (Drifts up like a real balloon) */
+        .balloon { font-size: 30px; animation: floatUpBalloon 5s linear forwards; }
+        @keyframes floatUpBalloon {
             0% { transform: translateY(0) scale(0); opacity: 0; }
             20% { opacity: 1; }
-            100% { transform: translateY(-500px) rotate(20deg); opacity: 0; }
+            100% { transform: translateY(-500px) rotate(20deg) translateX(calc(10px - 20px * random())); opacity: 0; } /* Simple translateX calculation */
         }
 
-        img { max-width: 100%; max-height: 200px; border-radius: 15px; border: 3px solid #ffb7c5; margin: 20px 0; }
-        h1 { color: #d63384; font-size: 24px; margin-bottom: 5px; }
-        p { font-style: italic; line-height: 1.6; }
-        button { margin-top: auto; padding: 10px 25px; background: #ff75a0; border: none; border-radius: 25px; color: white; cursor: pointer; font-weight: bold; }
+        /* 3. THE BOOK */
+        .book { width: 350px; height: 450px; position: relative; perspective: 1000px; z-index: 10; display: none; }
+        .page { position: absolute; width: 100%; height: 100%; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; transform-origin: left; transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1.000); border: 2px solid #ffcce6; backface-visibility: hidden; }
+        .flipped { transform: rotateY(-180deg); }
+
+        img { max-width: 100%; max-height: 200px; border-radius: 15px; border: 3px solid #ff75a0; margin: 15px 0; }
+        h1 { color: #d63384; font-size: 24px; margin-bottom: 5px; font-style: italic; }
+        p { font-style: italic; line-height: 1.6; font-size: 1.1em; color: #4a90e2; }
+        button { margin-top: auto; padding: 10px 25px; background: #ff75a0; border: none; border-radius: 25px; color: white; cursor: pointer; font-weight: bold; font-family: 'Georgia', serif; }
     </style>
 </head>
 <body>
 
-    <div id="window-container">
-        <div class="shutter shutter-left"></div>
-        <div class="shutter shutter-right"></div>
-        <button id="open-btn" onclick="openWindows()">Open the Window 🏰</button>
+    <div id="curtain-container">
+        <div class="curtain curtain-left"></div>
+        <div class="curtain curtain-right"></div>
+        <button id="open-btn" onclick="openCurtains()">Open the Mystery 💖</button>
     </div>
 
-    <div class="book">
-        <div class="page" id="p1">
+    <div class="book" id="book-container">
+        <div class="page" id="p1" style="z-index: 2;">
             <h2>Dear Mom,</h2>
-            <p>Write your poem here. You are the light of my life, the strength in my day, and the love that guides me. Happy Mother's Day!</p>
-            <button onclick="flipPage()">Next →</button>
+            <p>You are the warmth of the sun and the light in my day. Thank you for everything you are and everything you do. I love you!</p>
+            <button onclick="flipPage('p1')">Reveal Gift ✨</button>
         </div>
-        <div class="page" id="p2">
-            <img src="mom.jpg" alt="Mom">
+        
+        <div class="page" id="p2" style="z-index: 1;">
+            <img src="mom.jpg" alt="To my beautiful Mom">
             <h1>Happy Mother's Day!</h1>
-            <p>I love you to the moon and back.</p>
+            <p>You are loved beyond measure.</p>
         </div>
     </div>
 
     <script>
-        function openWindows() {
-            document.getElementById('window-container').classList.add('open');
-            setTimeout(() => document.getElementById('window-container').style.display = 'none', 2000);
+        // Start Cherry Blossom Petals on page load
+        setInterval(createPetal, 1500);
+
+        function createPetal() {
+            const p = document.createElement('div');
+            p.innerHTML = '🌸';
+            p.className = 'petal';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = Math.random() * 5 + 5 + 's';
+            p.style.opacity = Math.random();
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 10000);
         }
 
-        function flipPage() {
-            document.getElementById('p1').classList.add('flipped');
-            // Trigger balloon hearts on the second page
+        // --- Core Flow Logic ---
+
+        function openCurtains() {
+            // 1. Trigger curtain animation
+            document.getElementById('curtain-container').classList.add('open');
+            // 2. Delay: Show the book gently
+            setTimeout(() => {
+                const curtain = document.getElementById('curtain-container');
+                const book = document.getElementById('book-container');
+                curtain.style.opacity = '0';
+                setTimeout(() => { 
+                    curtain.style.display = 'none'; 
+                    book.style.display = 'block'; 
+                }, 1000); 
+            }, 1000); // Give time for curtains to start swinging
+        }
+
+        function flipPage(id) {
+            // 1. Flip the current page
+            document.getElementById(id).classList.add('flipped');
+            // 2. Start the Balloon Hearts on Page 2
             setInterval(createBalloon, 400); 
         }
+
+        // --- Balloon Hearts Logic ---
 
         function createBalloon() {
             const b = document.createElement('div');
