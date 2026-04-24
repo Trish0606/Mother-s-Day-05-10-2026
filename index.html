@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>A Story for Mom</title>
+    <style>
+        body { background: linear-gradient(135deg, #e6f3ff, #ffe6f0); height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; font-family: 'Georgia', serif; overflow: hidden; }
+        .gate { width: 320px; padding: 40px; background: rgba(255, 255, 255, 0.95); border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; border: 3px solid #ffb7c5; z-index: 10; }
+        button { margin-top: 25px; padding: 12px 30px; background: #ff75a0; border: none; cursor: pointer; border-radius: 25px; color: white; font-weight: bold; font-family: 'Georgia', serif; font-size: 1.1em; transition: transform 0.2s; }
+        button:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <div class="gate">
+        <h1 style="color: #d63384; font-style: italic;">To my amazing Mom</h1>
+        <p style="color: #4a90e2; font-weight: bold;">Please unlock my special message.</p>
+        <button onclick="checkPassword()">Unlock the Memories 💖</button>
+    </div>
+
+    <script>
+        function checkPassword() {
+            // YOU CAN CHANGE THE PASSWORD HERE
+            const code = prompt("Enter the password:");
+            if (code === "love") {
+                window.location.href = "mother.html";
+            } else {
+                alert("Oops! Incorrect password! Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>
